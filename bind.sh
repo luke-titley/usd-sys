@@ -7,6 +7,7 @@ pushd build
 ${CPPMM} ../bind -u         \
     -o .                    \
     -i $PWD/../bind/        \
+    -i $PWD/../thirdparty/include  \
     --                      \
     -I ../thirdparty/include/           \
     -isysroot/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk \
