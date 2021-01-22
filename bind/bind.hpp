@@ -1,4 +1,8 @@
-#include "pxr/base/tf/token.h"
+//#include "pxr/base/tf/token.h"
 
-namespace bind {
-}
+template<typename T>
+class Foo {
+    int get_name();
+};
+
+template class Foo<int>;
