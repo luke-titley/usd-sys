@@ -121,23 +121,23 @@ pub struct Base {
 pub struct Record {
     #[serde(rename = "Base", default)]
     pub base: Vec<Base>,
-    pub id : Option < Id >,
-    pub name : Option < NameOrEmpty >,
-    pub context : Option < IdRef >,
-    pub access : Option < Access >,
+    pub id: Option<Id>,
+    pub name: Option<NameOrEmpty>,
+    pub context: Option<IdRef>,
+    pub access: Option<Access>,
     pub location: Option<String>,
     pub file: Option<String>,
     pub line: Option<u64>,
-    pub comment : Option < IdRef >,
-    pub incomplete : Option < i32 >,
-    pub abstract_ : Option < i32 >,
-    pub members : Option < IdRefs >,
-    pub befriending : Option < IdRefs >,
+    pub comment: Option<IdRef>,
+    pub incomplete: Option<i32>,
+    pub abstract_: Option<i32>,
+    pub members: Option<IdRefs>,
+    pub befriending: Option<IdRefs>,
     pub size: Option<u64>,
     pub align: Option<u64>,
-    pub attributes : Option <Attributes >,
-    pub deprecation : Option < Name >,
-    pub annotation : Option < Name >,
+    pub attributes: Option<Attributes>,
+    pub deprecation: Option<Name>,
+    pub annotation: Option<Name>,
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -149,6 +149,7 @@ pub struct EnumValue {
     annotation: Option<Name>,
 }
 
+#[derive(Debug, serde::Deserialize)]
 pub enum Item {
     File {
         id: Id,
@@ -172,62 +173,63 @@ pub enum Item {
         end_line: u32,
         end_column: u32,
         end_offset: u32,
-    }
-/*
+    },
     Struct(Record),
     Union(Record),
     Class(Record),
     Enumeration {
         #[serde(rename = "EnumValue", default)]
-        enum_value : Vec<EnumValue>
-          id: Id,
-          name: NameOrEmpty,
-          type_: IdRef,
-          context: Option<IdRef>,
-          access: Option<Access>,
-          location: Option<String>,
-          file: Option<String>,
-          line: Option<u64>,
-          scoped: Option<u32>,
-          size: u64,
-          align: u64,
-          attributes: Option<Attributes>,
-          deprecation: Option<Name>,
-          annotation: Option<Name>,
-          comment : Option < IdRef >,
+        enum_value: Vec<EnumValue>,
+        id: Id,
+        name: NameOrEmpty,
+        type_: IdRef,
+        context: Option<IdRef>,
+        access: Option<Access>,
+        location: Option<String>,
+        file: Option<String>,
+        line: Option<u64>,
+        scoped: Option<u32>,
+        size: u64,
+        align: u64,
+        attributes: Option<Attributes>,
+        deprecation: Option<Name>,
+        annotation: Option<Name>,
+        comment: Option<IdRef>,
     },
     Variable {
-          id: Id,
-          name: Name,
-          type_: IdRef,
-          init: Option<Expression>,
-          context: Option<IdRef>,
-          access: Option<Access>,
-          location: Option<String>,
-          file: Option<String>,
-          line: Option<u64>,
-          static_: Option<u32>
-          extern_: Option<u32>
-          mangled: String,
-          attributes: Option<Attributes>
-          comment: Option<IdRef>
-          deprecation: Option<Name>
-          annotation: Option<Name>
+        id: Id,
+        name: Name,
+        type_: IdRef,
+        init: Option<Expression>,
+        context: Option<IdRef>,
+        access: Option<Access>,
+        location: Option<String>,
+        file: Option<String>,
+        line: Option<u64>,
+        static_: Option<u32>,
+        extern_: Option<u32>,
+        mangled: String,
+        attributes: Option<Attributes>,
+        comment: Option<IdRef>,
+        deprecation: Option<Name>,
+        annotation: Option<Name>,
     },
     Field {
-          id: Id,
-          name: NameOrEmpty,
-          type_: IdRef,
-          bits: Option<u32>,
-          context: IdRef,
-          access: Access,
-          <xs:attributeGroup ref="location" />
-          offset: u64,
-          mutable: Option<i32>,
-          attributes: Option<Attributes>
-          comment: Option<IdRef>,
-          deprecation: Option<Name>,
-          annotation: Option<Name>,
+        id: Id,
+        name: NameOrEmpty,
+        type_: IdRef,
+        bits: Option<u32>,
+        context: IdRef,
+        access: Access,
+        location: Option<String>,
+        file: Option<String>,
+        line: Option<u64>,
+        offset: u64,
+        mutable: Option<i32>,
+        attributes: Option<Attributes>,
+        comment: Option<IdRef>,
+        deprecation: Option<Name>,
+        annotation: Option<Name>,
     },
     Function(Function),
     OperatorFunction(Function),
@@ -237,80 +239,81 @@ pub enum Item {
     OperatorMethod(Method),
     Converter(Method),
     Typedef {
-      id: Id,
-      name: Name,
-      type_: IdRef,
-      context: Option<IdRef>,
-      access: Option<Access>,
-      location: Option<String>,
-      file: Option<String>,
-      line: Option<u64>,
-      attributes: Option<Attributes>,
-      comment: Option<IdRef>,
-      deprecation: Option<Name>,
-      annotation: Option<Name>,
-    },
-    FundamentalType {
         id: Id,
         name: Name,
-        size: Option<u64>,
-        align: Option<u64>,
-    },
-    CvQualifiedType {
-          id: Id,
-          type_: IdRef,
-          const_: Option<i32>,
-          volatile_: Option<i32>,
-          restrict_: Option<i32>,
-    },
-    PointerType {
-          id: Id,
-          type_: IdRef,
-          size: Option<u64>,
-          align: Option<u64>,
-    }
-    OffsetType {
-          id: Id,
-          basetype_: IdRef,
-          type_: IdRef,
-    }
-    ReferenceType {
-          id: Id,
-          type_: IdRef,
-          size: u64,
-          align: u64,
-    },
-    ArrayType {
-          id: Id,
-          type_: IdRef,
-          min: u64,
-          max: Option<u64>,
-    },
-    ElaboratedType {
-          id: Id,
-          type_: IdRef,
-    },
-    FunctionType(FunctionType)
-    MethodType {
-        basetype: IdRef,
-        #[serde(rename = "IdRef", default)]
-        arguments: Vec<IdRef>
-
-        id: Id,
-        returns: IdRef,
-        const_: Option<u32>
-        volatile_: Option<u32>
-        restrict_: Option<u32>
+        type_: IdRef,
+        context: Option<IdRef>,
+        access: Option<Access>,
+        location: Option<String>,
+        file: Option<String>,
+        line: Option<u64>,
         attributes: Option<Attributes>,
+        comment: Option<IdRef>,
         deprecation: Option<Name>,
-        annotation: Option<Name>
-    }
-    UnImplemented {
-        id: Id,
-        kind: Option<Name>,
-        type_class: Option<Name>,
-    }
-*/
+        annotation: Option<Name>,
+    },
+    /*
+        FundamentalType {
+            id: Id,
+            name: Name,
+            size: Option<u64>,
+            align: Option<u64>,
+        },
+        CvQualifiedType {
+              id: Id,
+              type_: IdRef,
+              const_: Option<i32>,
+              volatile_: Option<i32>,
+              restrict_: Option<i32>,
+        },
+        PointerType {
+              id: Id,
+              type_: IdRef,
+              size: Option<u64>,
+              align: Option<u64>,
+        }
+        OffsetType {
+              id: Id,
+              basetype_: IdRef,
+              type_: IdRef,
+        }
+        ReferenceType {
+              id: Id,
+              type_: IdRef,
+              size: u64,
+              align: u64,
+        },
+        ArrayType {
+              id: Id,
+              type_: IdRef,
+              min: u64,
+              max: Option<u64>,
+        },
+        ElaboratedType {
+              id: Id,
+              type_: IdRef,
+        },
+        FunctionType(FunctionType)
+        MethodType {
+            basetype: IdRef,
+            #[serde(rename = "IdRef", default)]
+            arguments: Vec<IdRef>
+
+            id: Id,
+            returns: IdRef,
+            const_: Option<u32>
+            volatile_: Option<u32>
+            restrict_: Option<u32>
+            attributes: Option<Attributes>,
+            deprecation: Option<Name>,
+            annotation: Option<Name>
+        }
+        UnImplemented {
+            id: Id,
+            kind: Option<Name>,
+            type_class: Option<Name>,
+        }
+    */
 }
 
 /*
