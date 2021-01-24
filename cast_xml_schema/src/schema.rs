@@ -1,5 +1,3 @@
-
-
 use std::string::String;
 use std::vec::Vec;
 
@@ -33,30 +31,6 @@ pub enum Access {
     Protected,
     Private
 }
-
-/*
-  <xs:attributeGroup name="abi">
-    <xs:attribute name="size" type="xs:unsignedLong" />
-    <xs:attribute name="align" type="xs:unsignedLong" />
-  </xs:attributeGroup>
-
-  <xs:attributeGroup name="optionalAbi">
-    <xs:attribute name="size" type="xs:unsignedLong" use="optional" />
-    <xs:attribute name="align" type="xs:unsignedLong" use="optional" />
-  </xs:attributeGroup>
-
-  <xs:attributeGroup name="location">
-    <xs:attribute name="location" use="optional">
-      <xs:simpleType>
-        <xs:restriction base="xs:token">
-          <xs:pattern value="f[0-9]+:[0-9]+" />
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:attribute>
-    <xs:attribute name="file" type="xs:IDREF" use="optional" />
-    <xs:attribute name="line" type="xs:unsignedLong" use="optional" />
-  </xs:attributeGroup>
-*/
 
 #[derive(Debug, Deserialize)]
 pub struct Argument {
@@ -174,8 +148,6 @@ pub struct Record {
     pub deprecation : Option < Name >,
     pub annotation : Option < Name >,
 }
-
-type Items = Vec<Item>;
 
 pub struct EnumValue {
     name: Name,
@@ -319,65 +291,41 @@ pub enum Item {
           type_: IdRef,
           min: u64,
           max: Option<u64>,
+    },
+    ElaboratedType {
+          id: Id,
+          type_: IdRef,
+    },
+    FunctionType(FunctionType)
+    MethodType {
+        basetype: IdRef,
+        #[serde(rename = "IdRef", default)]
+        arguments: Vec<IdRef>
+
+        id: Id,
+        returns: IdRef,
+        const_: Option<u32>
+        volatile_: Option<u32>
+        restrict_: Option<u32>
+        attributes: Option<Attributes>,
+        deprecation: Option<Name>,
+        annotation: Option<Name>
+    }
+    UnImplemented {
+        id: Id,
+        kind: Option<Name>,
+        type_class: Option<Name>,
     }
 }
 
-      <xs:element name="ElaboratedType">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:ID" />
-          <xs:attribute name="type" type="xs:IDREF" />
-        </xs:complexType>
-      </xs:element>
+struct CastXML {
+    items: Vec<Item>,
+    format: String,
+}
 
-      <xs:element name="FunctionType" type="FunctionType" />
-
-      <xs:element name="MethodType">
-        <xs:complexType>
-          <xs:complexContent>
-            <xs:extension base="FunctionType">
-              <xs:attribute name="basetype" type="xs:IDREF" />
-            </xs:extension>
-          </xs:complexContent>
-        </xs:complexType>
-      </xs:element>
-
-      <xs:element name="Unimplemented">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:ID" />
-          <!-- kind is set for unimplemented declarations, type_class for types. -->
-          <xs:attribute name="kind" type="name" use="optional" />
-          <xs:attribute name="type_class" type="name" use="optional" />
-        </xs:complexType>
-      </xs:element>
-    </xs:choice>
-  </xs:complexType>
-
-  <!-- castxml-output=1 output root. -->
-  <xs:element name="CastXML">
-    <xs:complexType>
-      <xs:complexContent>
-        <xs:extension base="Items">
-          <xs:attribute name="format">
-            <xs:simpleType>
-              <xs:restriction base="xs:token">
-                <xs:pattern value="1(\.[0-9]+)*" />
-              </xs:restriction>
-            </xs:simpleType>
-          </xs:attribute>
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>
-  </xs:element>
-
-  <!-- castxml-gccxml output root. -->
-  <xs:element name="GCC_XML">
-    <xs:complexType>
-      <xs:complexContent>
-        <xs:extension base="Items">
-          <xs:attribute name="version" type="xs:token" fixed="0.9.0" />
-          <xs:attribute name="cvs_revision" type="xs:token" fixed="1.145" />
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>
-  </xs:element>
-</xs:schema>
+struct GCC_XML {
+    #[serde(rename = "Item", default)]
+    items: Vec<Item>,
+    version: String,
+    cvs_revision: String,
+}
