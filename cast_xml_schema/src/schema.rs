@@ -252,80 +252,78 @@ pub enum Item {
         deprecation: Option<Name>,
         annotation: Option<Name>,
     },
-    /*
-        FundamentalType {
-            id: Id,
-            name: Name,
-            size: Option<u64>,
-            align: Option<u64>,
-        },
-        CvQualifiedType {
-              id: Id,
-              type_: IdRef,
-              const_: Option<i32>,
-              volatile_: Option<i32>,
-              restrict_: Option<i32>,
-        },
-        PointerType {
-              id: Id,
-              type_: IdRef,
-              size: Option<u64>,
-              align: Option<u64>,
-        }
-        OffsetType {
-              id: Id,
-              basetype_: IdRef,
-              type_: IdRef,
-        }
-        ReferenceType {
-              id: Id,
-              type_: IdRef,
-              size: u64,
-              align: u64,
-        },
-        ArrayType {
-              id: Id,
-              type_: IdRef,
-              min: u64,
-              max: Option<u64>,
-        },
-        ElaboratedType {
-              id: Id,
-              type_: IdRef,
-        },
-        FunctionType(FunctionType)
-        MethodType {
-            basetype: IdRef,
-            #[serde(rename = "IdRef", default)]
-            arguments: Vec<IdRef>
+    FundamentalType {
+        id: Id,
+        name: Name,
+        size: Option<u64>,
+        align: Option<u64>,
+    },
+    CvQualifiedType {
+        id: Id,
+        type_: IdRef,
+        const_: Option<i32>,
+        volatile_: Option<i32>,
+        restrict_: Option<i32>,
+    },
+    PointerType {
+        id: Id,
+        type_: IdRef,
+        size: Option<u64>,
+        align: Option<u64>,
+    },
+    OffsetType {
+        id: Id,
+        basetype_: IdRef,
+        type_: IdRef,
+    },
+    ReferenceType {
+        id: Id,
+        type_: IdRef,
+        size: u64,
+        align: u64,
+    },
+    ArrayType {
+        id: Id,
+        type_: IdRef,
+        min: u64,
+        max: Option<u64>,
+    },
+    ElaboratedType {
+        id: Id,
+        type_: IdRef,
+    },
+    FunctionType(FunctionType),
+    MethodType {
+        basetype: IdRef,
+        #[serde(rename = "IdRef", default)]
+        arguments: Vec<IdRef>,
 
-            id: Id,
-            returns: IdRef,
-            const_: Option<u32>
-            volatile_: Option<u32>
-            restrict_: Option<u32>
-            attributes: Option<Attributes>,
-            deprecation: Option<Name>,
-            annotation: Option<Name>
-        }
-        UnImplemented {
-            id: Id,
-            kind: Option<Name>,
-            type_class: Option<Name>,
-        }
-    */
+        id: Id,
+        returns: IdRef,
+        const_: Option<u32>,
+        volatile_: Option<u32>,
+        restrict_: Option<u32>,
+        attributes: Option<Attributes>,
+        deprecation: Option<Name>,
+        annotation: Option<Name>,
+    },
+    UnImplemented {
+        id: Id,
+        kind: Option<Name>,
+        type_class: Option<Name>,
+    },
 }
 
-/*
+#[derive(Debug, serde::Deserialize)]
 struct CastXML {
     items: Vec<Item>,
     format: String,
 }
 
+#[derive(Debug, serde::Deserialize)]
 struct GCC_XML {
     #[serde(rename = "Item", default)]
     items: Vec<Item>,
     version: String,
     cvs_revision: String,
 }
-*/
