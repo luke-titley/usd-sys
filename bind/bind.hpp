@@ -1,5 +1,6 @@
-//#include "pxr/base/tf/token.h"
+#include "pxr/base/tf/token.h"
 
+/*
 template<typename T>
 class Foo {
 public:
@@ -9,3 +10,4 @@ public:
 
 template class Foo<int>;
 template class Foo<float>;
+*/
