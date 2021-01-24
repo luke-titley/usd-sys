@@ -37,7 +37,7 @@ pub struct Argument {
     pub original_type: Option<IdRef>,
     pub location: Option<String>,
     pub file: Option<String>,
-    pub line: Option<u64>,
+    pub line: Option<String>,
     pub default: Option<Expression>,
     pub attributes: Option<Attributes>,
     pub deprecation: Option<Name>,
@@ -53,11 +53,11 @@ pub struct Function {
     pub returns: Option<IdRef>,
     pub context: Option<IdRef>,
     #[serde(rename = "static")]
-    pub static_: Option<i32>,
-    pub inline: Option<i32>,
+    pub static_: Option<String>,
+    pub inline: Option<String>,
     #[serde(rename = "extern")]
-    pub extern_: Option<i32>,
-    pub artificial: Option<i32>,
+    pub extern_: Option<String>,
+    pub artificial: Option<String>,
     pub throw: Option<IdRefs>,
     pub mangled: Option<String>,
     pub deprecation: Option<Name>,
@@ -66,7 +66,7 @@ pub struct Function {
     pub comment: Option<String>,
     pub location: Option<String>,
     pub file: Option<String>,
-    pub line: Option<u64>,
+    pub line: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -78,11 +78,11 @@ pub struct Method {
     pub returns: Option<IdRef>,
     pub context: Option<IdRef>,
     #[serde(rename = "static")]
-    pub static_: Option<i32>,
-    pub inline: Option<i32>,
+    pub static_: Option<String>,
+    pub inline: Option<String>,
     #[serde(rename = "extern")]
-    pub extern_: Option<i32>,
-    pub artificial: Option<i32>,
+    pub extern_: Option<String>,
+    pub artificial: Option<String>,
     pub throw: Option<IdRefs>,
     pub mangled: Option<String>,
     pub deprecation: Option<Name>,
@@ -91,14 +91,14 @@ pub struct Method {
     pub comment: Option<String>,
     pub location: Option<String>,
     pub file: Option<String>,
-    pub line: Option<u64>,
+    pub line: Option<String>,
 
     // Added
     pub access: Access,
-    pub explicit: Option<u32>,
-    pub const_: Option<u32>,
-    pub virtual_: Option<u32>,
-    pub pure_virtual: Option<u32>,
+    pub explicit: Option<String>,
+    pub const_: Option<String>,
+    pub virtual_: Option<String>,
+    pub pure_virtual: Option<String>,
     pub overrides: Option<IdRefs>,
 }
 
@@ -109,9 +109,9 @@ pub struct FunctionType {
 
     pub id: Id,
     pub returns: IdRef,
-    pub const_: Option<u32>,
-    pub volatile_: Option<u32>,
-    pub restrict_: Option<u32>,
+    pub const_: Option<String>,
+    pub volatile_: Option<String>,
+    pub restrict_: Option<String>,
     pub attributes: Option<Attributes>,
     pub deprecation: Option<Name>,
     pub annotation: Option<Name>,
@@ -119,10 +119,12 @@ pub struct FunctionType {
 
 #[derive(Debug, serde::Deserialize)]
 pub struct Base {
-    pub dec_type: IdRef,
-    pub dec_access: Access,
-    pub dec_virtual: bool,
-    pub offset: Option<u64>,
+    #[serde(rename = "type")]
+    pub type_: IdRef,
+    pub access: Access,
+    #[serde(rename = "virtual")]
+    pub virtual_: bool,
+    pub offset: Option<String>,
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -135,14 +137,14 @@ pub struct Record {
     pub access: Option<Access>,
     pub location: Option<String>,
     pub file: Option<String>,
-    pub line: Option<u64>,
+    pub line: Option<String>,
     pub comment: Option<IdRef>,
-    pub incomplete: Option<i32>,
-    pub abstract_: Option<i32>,
+    pub incomplete: Option<String>,
+    pub abstract_: Option<String>,
     pub members: Option<IdRefs>,
     pub befriending: Option<IdRefs>,
-    pub size: Option<u64>,
-    pub align: Option<u64>,
+    pub size: Option<String>,
+    pub align: Option<String>,
     pub attributes: Option<Attributes>,
     pub deprecation: Option<Name>,
     pub annotation: Option<Name>,
@@ -151,7 +153,7 @@ pub struct Record {
 #[derive(Debug, serde::Deserialize)]
 pub struct EnumValue {
     name: Name,
-    init: u64,
+    init: String,
     attributes: Option<Attributes>,
     deprecation: Option<Name>,
     annotation: Option<Name>,
@@ -175,12 +177,12 @@ pub enum Item {
         id: Id,
         attached: IdRef,
         file: IdRef,
-        begin_line: u32,
-        begin_column: u32,
-        begin_offset: u32,
-        end_line: u32,
-        end_column: u32,
-        end_offset: u32,
+        begin_line: String,
+        begin_column: String,
+        begin_offset: String,
+        end_line: String,
+        end_column: String,
+        end_offset: String,
     },
     Struct(Record),
     Union(Record),
@@ -196,10 +198,10 @@ pub enum Item {
         access: Option<Access>,
         location: Option<String>,
         file: Option<String>,
-        line: Option<u64>,
-        scoped: Option<u32>,
-        size: u64,
-        align: u64,
+        line: Option<String>,
+        scoped: Option<String>,
+        size: String,
+        align: String,
         attributes: Option<Attributes>,
         deprecation: Option<Name>,
         annotation: Option<Name>,
@@ -215,11 +217,11 @@ pub enum Item {
         access: Option<Access>,
         location: Option<String>,
         file: Option<String>,
-        line: Option<u64>,
+        line: Option<String>,
         #[serde(rename = "static")]
-        static_: Option<u32>,
+        static_: Option<String>,
         #[serde(rename = "extern")]
-        extern_: Option<u32>,
+        extern_: Option<String>,
         mangled: String,
         attributes: Option<Attributes>,
         comment: Option<IdRef>,
@@ -231,14 +233,14 @@ pub enum Item {
         name: NameOrEmpty,
         #[serde(rename = "type")]
         type_: IdRef,
-        bits: Option<u32>,
+        bits: Option<String>,
         context: IdRef,
         access: Access,
         location: Option<String>,
         file: Option<String>,
-        line: Option<u64>,
-        offset: u64,
-        mutable: Option<i32>,
+        line: Option<String>,
+        offset: String,
+        mutable: Option<String>,
         attributes: Option<Attributes>,
         comment: Option<IdRef>,
         deprecation: Option<Name>,
@@ -260,7 +262,7 @@ pub enum Item {
         access: Option<Access>,
         location: Option<String>,
         file: Option<String>,
-        line: Option<u64>,
+        line: Option<String>,
         attributes: Option<Attributes>,
         comment: Option<IdRef>,
         deprecation: Option<Name>,
@@ -269,23 +271,23 @@ pub enum Item {
     FundamentalType {
         id: Id,
         name: Name,
-        size: Option<u64>,
-        align: Option<u64>,
+        size: Option<String>,
+        align: Option<String>,
     },
     CvQualifiedType {
         id: Id,
         #[serde(rename = "type")]
         type_: IdRef,
-        const_: Option<i32>,
-        volatile_: Option<i32>,
-        restrict_: Option<i32>,
+        const_: Option<String>,
+        volatile_: Option<String>,
+        restrict_: Option<String>,
     },
     PointerType {
         id: Id,
         #[serde(rename = "type")]
         type_: IdRef,
-        size: Option<u64>,
-        align: Option<u64>,
+        size: Option<String>,
+        align: Option<String>,
     },
     OffsetType {
         id: Id,
@@ -297,15 +299,15 @@ pub enum Item {
         id: Id,
         #[serde(rename = "type")]
         type_: IdRef,
-        size: u64,
-        align: u64,
+        size: String,
+        align: String,
     },
     ArrayType {
         id: Id,
         #[serde(rename = "type")]
         type_: IdRef,
-        min: u64,
-        max: Option<u64>,
+        min: String,
+        max: Option<String>,
     },
     ElaboratedType {
         id: Id,
@@ -321,16 +323,16 @@ pub enum Item {
         id: Id,
         returns: IdRef,
         #[serde(rename = "const")]
-        const_: Option<u32>,
+        const_: Option<String>,
         #[serde(rename = "volatile")]
-        volatile_: Option<u32>,
+        volatile_: Option<String>,
         #[serde(rename = "restrict")]
-        restrict_: Option<u32>,
+        restrict_: Option<String>,
         attributes: Option<Attributes>,
         deprecation: Option<Name>,
         annotation: Option<Name>,
     },
-    UnImplemented {
+    Unimplemented {
         id: Id,
         kind: Option<Name>,
         type_class: Option<Name>,

@@ -1,5 +1,5 @@
 //#include "pxr/base/tf/token.h"
-//#include "pxr/base/vt/array.h"
+#include "pxr/base/vt/array.h"
 
 /*
 template<typename T>
@@ -13,7 +13,9 @@ template class Foo<int>;
 template class Foo<float>;
 */
 
+/*
 class Foo {
 public:
     int i;
 };
+*/

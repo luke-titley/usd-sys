@@ -23,14 +23,15 @@ fn main() {
 
     let root : schema::CastXML = from_reader(file).expect("Unable to read xml file");
 
+    /*
     println!("{}", root.format);
     println!("{}", root.items.len());
+    */
 
     for item in root.items.iter() {
-        println!("Hello");
         match item {
             Item::Field{ id, ..} => {
-                println!("Field id: {}", id);
+                //println!("Field id: {}", id);
             }
             _ => (),
         }
