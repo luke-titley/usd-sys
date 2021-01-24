@@ -2,7 +2,10 @@
 
 template<typename T>
 class Foo {
-    int get_name();
+public:
+    T t;
+    void do_foo(T t);
 };
 
 template class Foo<int>;
+template class Foo<float>;
