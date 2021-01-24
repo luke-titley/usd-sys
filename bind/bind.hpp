@@ -1,4 +1,5 @@
-#include "pxr/base/tf/token.h"
+//#include "pxr/base/tf/token.h"
+#include "pxr/base/vt/array.h"
 
 /*
 template<typename T>
