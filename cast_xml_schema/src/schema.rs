@@ -117,9 +117,9 @@ pub struct Base {
     pub offset: Option<u64>,
 }
 
-/*
+#[derive(Debug, serde::Deserialize)]
 pub struct Record {
-    #[serde(rename = "Basef", default)]
+    #[serde(rename = "Base", default)]
     pub base: Vec<Base>,
     pub id : Option < Id >,
     pub name : Option < NameOrEmpty >,
@@ -133,13 +133,14 @@ pub struct Record {
     pub abstract_ : Option < i32 >,
     pub members : Option < IdRefs >,
     pub befriending : Option < IdRefs >,
-    pub size: option<u64>,
-    pub align: option<u64>,
+    pub size: Option<u64>,
+    pub align: Option<u64>,
     pub attributes : Option <Attributes >,
     pub deprecation : Option < Name >,
     pub annotation : Option < Name >,
 }
 
+/*
 pub struct EnumValue {
     name: Name,
     init: u64,
