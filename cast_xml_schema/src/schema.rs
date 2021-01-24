@@ -121,7 +121,7 @@ pub struct Base {
 pub struct Record {
     #[serde(rename = "Base", default)]
     pub base: Vec<Base>,
-    pub id: Option<Id>,
+    pub id: Id,
     pub name: Option<NameOrEmpty>,
     pub context: Option<IdRef>,
     pub access: Option<Access>,
