@@ -86,12 +86,12 @@ pub struct Method {
     pub line: Option<u64>,
 
     // Added
-    access: Access,
-    explicit: Option<u32>,
-    const_: Option<u32>,
-    virtual_: Option<u32>,
-    pure_virtual: Option<u32>,
-    overrides: Option<IdRefs>,
+    pub access: Access,
+    pub explicit: Option<u32>,
+    pub const_: Option<u32>,
+    pub virtual_: Option<u32>,
+    pub pure_virtual: Option<u32>,
+    pub overrides: Option<IdRefs>,
 }
 
 #[derive(Debug, serde::Deserialize)]
