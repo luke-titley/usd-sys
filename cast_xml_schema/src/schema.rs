@@ -1,27 +1,16 @@
 use std::string::String;
 use std::vec::Vec;
 
-#[derive(Debug, Deserialize)]
 pub type Token = String;
+pub type IdRef = u64;
+pub type IdRefs = Vec<IdRef>;
 
-#[derive(Debug, Deserialize)]
-pub struct IdRef(pub u64);
-type IdRefs = Vec<IdRef>;
+pub type Bool = bool;
+pub type Name = Token;
 
-
-#[derive(Debug, Deserialize)]
-pub struct Bool(pub bool);
-#[derive(Debug, Deserialize)]
-pub struct Name(pub Token);
-
-#[derive(Debug, Deserialize)]
-pub struct Empty();
-#[derive(Debug, Deserialize)]
-pub struct NameOrEmpty(pub Option<Name, Empty>);
-#[derive(Debug, Deserialize)]
-pub struct Expression(pub Token);
-#[derive(Debug, Deserialize)]
-pub struct Attributes(pub Token);
+pub type NameOrEmpty = Option<Name, ()>;
+pub type Expression = Token;
+pub type Attributes = Token;
 
 pub struct Id = u64;
 
@@ -29,9 +18,10 @@ pub struct Id = u64;
 pub enum Access {
     Public,
     Protected,
-    Private
+    Private,
 }
 
+/*
 #[derive(Debug, Deserialize)]
 pub struct Argument {
   pub name Option<Name>,
@@ -329,3 +319,4 @@ struct GCC_XML {
     version: String,
     cvs_revision: String,
 }
+*/
