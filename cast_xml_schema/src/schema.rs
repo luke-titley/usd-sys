@@ -140,7 +140,7 @@ pub struct Record {
     pub annotation : Option < Name >,
 }
 
-/*
+#[derive(Debug, serde::Deserialize)]
 pub struct EnumValue {
     name: Name,
     init: u64,
@@ -154,12 +154,13 @@ pub enum Item {
         id: Id,
         name: Name,
     },
+
     Namespace {
         id: Id,
         name: Option<Name>,
-        context: Option<IdRef>
-        members: Option<IdRefs>
-        name: Option<IdRef>
+        context: Option<IdRef>,
+        members: Option<IdRefs>,
+        comment: Option<IdRef>,
     },
     Comment {
         id: Id,
@@ -172,6 +173,7 @@ pub enum Item {
         end_column: u32,
         end_offset: u32,
     }
+/*
     Struct(Record),
     Union(Record),
     Class(Record),
@@ -308,8 +310,10 @@ pub enum Item {
         kind: Option<Name>,
         type_class: Option<Name>,
     }
+*/
 }
 
+/*
 struct CastXML {
     items: Vec<Item>,
     format: String,
