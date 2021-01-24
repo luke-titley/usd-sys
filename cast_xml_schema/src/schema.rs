@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // rust-vfx 2020
 //------------------------------------------------------------------------------
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 use std::string::String;
 use std::vec::Vec;
@@ -40,25 +40,24 @@ pub struct Argument {
     pub annotation: Option<Name>,
 }
 
-/*
 #[derive(Debug, Deserialize)]
 pub struct Function {
     #[serde(rename = "Argument", default)]
-    pub arguments: Vec<Argument>
+    pub arguments: Vec<Argument>,
     pub id: Id,
     pub name: NameOrEmpty,
-    pub returns : Option < IdRef >,
-    pub context : Option < IdRef >,
-    pub static : Option < i32 >,
-    pub inline : Option < i32 >,
-    pub extern : Option <i32 >,
-    pub artificial : Option < i32 >,
-    pub throw : Option < IdRefs >,
-    pub mangled : Option < String >,
-    pub deprecation : Option < Name >,
-    pub annotation : Option < Name >,
-    pub attributes : Option < Attributes >,
-    pub comment : Option < String >,
+    pub returns: Option<IdRef>,
+    pub context: Option<IdRef>,
+    pub static_: Option<i32>,
+    pub inline_: Option<i32>,
+    pub extern_: Option<i32>,
+    pub artificial: Option<i32>,
+    pub throw: Option<IdRefs>,
+    pub mangled: Option<String>,
+    pub deprecation: Option<Name>,
+    pub annotation: Option<Name>,
+    pub attributes: Option<Attributes>,
+    pub comment: Option<String>,
     pub location: Option<String>,
     pub file: Option<String>,
     pub line: Option<u64>,
@@ -67,54 +66,50 @@ pub struct Function {
 #[derive(Debug, Deserialize)]
 pub struct Method {
     #[serde(rename = "Argument", default)]
-    pub arguments: Vec<Argument>
+    pub arguments: Vec<Argument>,
     pub id: Id,
     pub name: NameOrEmpty,
-    pub returns : Option < IdRef >,
-    pub context : Option < IdRef >,
-    pub static : Option < i32 >,
-    pub inline : Option < i32 >,
-    pub extern : Option <i32 >,
-    pub artificial : Option < i32 >,
-    pub throw : Option < IdRefs >,
-    pub mangled : Option < String >,
-    pub deprecation : Option < Name >,
-    pub annotation : Option < Name >,
-    pub attributes : Option < Attributes >,
-    pub comment : Option < String >,
+    pub returns: Option<IdRef>,
+    pub context: Option<IdRef>,
+    pub static_: Option<i32>,
+    pub inline_: Option<i32>,
+    pub extern_: Option<i32>,
+    pub artificial: Option<i32>,
+    pub throw: Option<IdRefs>,
+    pub mangled: Option<String>,
+    pub deprecation: Option<Name>,
+    pub annotation: Option<Name>,
+    pub attributes: Option<Attributes>,
+    pub comment: Option<String>,
     pub location: Option<String>,
     pub file: Option<String>,
     pub line: Option<u64>,
 
     // Added
-    #[serde(rename = "Argument", default)]
-    dec_access: Acces,
-    #[serde(rename = "Argument", default)]
-    dec_explicit: Option<u32>,
-    #[serde(rename = "Argument", default)]
-    dec_const: Option<u32>,
-    #[serde(rename = "Argument", default)]
-    dec_virtual: Option<u32>,
-    #[serde(rename = "Argument", default)]
-    dec_pure_virtual: Option<u32>,
-    #[serde(rename = "Argument", default)]
-    dec_overrides: Option<IdRefs>,
+    access: Access,
+    explicit: Option<u32>,
+    const_: Option<u32>,
+    virtual_: Option<u32>,
+    pure_virtual: Option<u32>,
+    overrides: Option<IdRefs>,
 }
 
+#[derive(Debug, serde::Deserialize)]
 pub struct FunctionType {
     #[serde(rename = "IdRef", default)]
-    pub arguments: Vec<IdRef>
+    pub arguments: Vec<IdRef>,
 
     pub id: Id,
     pub returns: IdRef,
-    pub const_: Option<u32>
-    pub volatile_: Option<u32>
-    pub restrict_: Option<u32>
+    pub const_: Option<u32>,
+    pub volatile_: Option<u32>,
+    pub restrict_: Option<u32>,
     pub attributes: Option<Attributes>,
     pub deprecation: Option<Name>,
-    pub annotation: Option<Name>
+    pub annotation: Option<Name>,
 }
 
+#[derive(Debug, serde::Deserialize)]
 pub struct Base {
     pub dec_type: IdRef,
     pub dec_access: Access,
@@ -122,6 +117,7 @@ pub struct Base {
     pub offset: Option<u64>,
 }
 
+/*
 pub struct Record {
     #[serde(rename = "Basef", default)]
     pub base: Vec<Base>,
