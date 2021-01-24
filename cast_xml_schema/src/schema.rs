@@ -7,28 +7,32 @@ use std::string::String;
 use std::vec::Vec;
 
 pub type Token = String;
-pub type IdRef = u64;
-pub type IdRefs = Vec<IdRef>;
+pub type IdRef = String;
+pub type IdRefs = String;
 
 pub type Bool = bool;
 pub type Name = Token;
 
 pub type NameOrEmpty = Option<Name>;
 pub type Expression = Token;
-pub type Attributes = Token;
+pub type Attributes = String;
 
-pub type Id = u64;
+pub type Id = String;
 
 #[derive(Debug, serde::Deserialize)]
 pub enum Access {
+    #[serde(rename = "public")]
     Public,
+    #[serde(rename = "protected")]
     Protected,
+    #[serde(rename = "private")]
     Private,
 }
 
 #[derive(Debug, serde::Deserialize)]
 pub struct Argument {
     pub name: Option<Name>,
+    #[serde(rename = "type")]
     pub type_: IdRef,
     pub original_type: Option<IdRef>,
     pub location: Option<String>,
@@ -48,8 +52,10 @@ pub struct Function {
     pub name: NameOrEmpty,
     pub returns: Option<IdRef>,
     pub context: Option<IdRef>,
+    #[serde(rename = "static")]
     pub static_: Option<i32>,
-    pub inline_: Option<i32>,
+    pub inline: Option<i32>,
+    #[serde(rename = "extern")]
     pub extern_: Option<i32>,
     pub artificial: Option<i32>,
     pub throw: Option<IdRefs>,
@@ -71,8 +77,10 @@ pub struct Method {
     pub name: NameOrEmpty,
     pub returns: Option<IdRef>,
     pub context: Option<IdRef>,
+    #[serde(rename = "static")]
     pub static_: Option<i32>,
-    pub inline_: Option<i32>,
+    pub inline: Option<i32>,
+    #[serde(rename = "extern")]
     pub extern_: Option<i32>,
     pub artificial: Option<i32>,
     pub throw: Option<IdRefs>,
@@ -182,6 +190,7 @@ pub enum Item {
         enum_value: Vec<EnumValue>,
         id: Id,
         name: NameOrEmpty,
+        #[serde(rename = "type")]
         type_: IdRef,
         context: Option<IdRef>,
         access: Option<Access>,
@@ -199,6 +208,7 @@ pub enum Item {
     Variable {
         id: Id,
         name: Name,
+        #[serde(rename = "type")]
         type_: IdRef,
         init: Option<Expression>,
         context: Option<IdRef>,
@@ -206,7 +216,9 @@ pub enum Item {
         location: Option<String>,
         file: Option<String>,
         line: Option<u64>,
+        #[serde(rename = "static")]
         static_: Option<u32>,
+        #[serde(rename = "extern")]
         extern_: Option<u32>,
         mangled: String,
         attributes: Option<Attributes>,
@@ -217,6 +229,7 @@ pub enum Item {
     Field {
         id: Id,
         name: NameOrEmpty,
+        #[serde(rename = "type")]
         type_: IdRef,
         bits: Option<u32>,
         context: IdRef,
@@ -241,6 +254,7 @@ pub enum Item {
     Typedef {
         id: Id,
         name: Name,
+        #[serde(rename = "type")]
         type_: IdRef,
         context: Option<IdRef>,
         access: Option<Access>,
@@ -260,6 +274,7 @@ pub enum Item {
     },
     CvQualifiedType {
         id: Id,
+        #[serde(rename = "type")]
         type_: IdRef,
         const_: Option<i32>,
         volatile_: Option<i32>,
@@ -267,6 +282,7 @@ pub enum Item {
     },
     PointerType {
         id: Id,
+        #[serde(rename = "type")]
         type_: IdRef,
         size: Option<u64>,
         align: Option<u64>,
@@ -274,34 +290,41 @@ pub enum Item {
     OffsetType {
         id: Id,
         basetype_: IdRef,
+        #[serde(rename = "type")]
         type_: IdRef,
     },
     ReferenceType {
         id: Id,
+        #[serde(rename = "type")]
         type_: IdRef,
         size: u64,
         align: u64,
     },
     ArrayType {
         id: Id,
+        #[serde(rename = "type")]
         type_: IdRef,
         min: u64,
         max: Option<u64>,
     },
     ElaboratedType {
         id: Id,
+        #[serde(rename = "type")]
         type_: IdRef,
     },
     FunctionType(FunctionType),
     MethodType {
         basetype: IdRef,
-        #[serde(rename = "IdRef", default)]
+        #[serde(rename = "$value")]
         arguments: Vec<IdRef>,
 
         id: Id,
         returns: IdRef,
+        #[serde(rename = "const")]
         const_: Option<u32>,
+        #[serde(rename = "volatile")]
         volatile_: Option<u32>,
+        #[serde(rename = "restrict")]
         restrict_: Option<u32>,
         attributes: Option<Attributes>,
         deprecation: Option<Name>,
@@ -315,15 +338,16 @@ pub enum Item {
 }
 
 #[derive(Debug, serde::Deserialize)]
-struct CastXML {
-    items: Vec<Item>,
-    format: String,
+pub struct CastXML {
+    #[serde(rename = "$value")]
+    pub items: Vec<Item>,
+    pub format: String,
 }
 
 #[derive(Debug, serde::Deserialize)]
-struct GCC_XML {
+pub struct GCC_XML {
     #[serde(rename = "Item", default)]
-    items: Vec<Item>,
-    version: String,
-    cvs_revision: String,
+    pub items: Vec<Item>,
+    pub version: String,
+    pub cvs_revision: String,
 }
