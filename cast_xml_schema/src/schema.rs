@@ -1,3 +1,8 @@
+//------------------------------------------------------------------------------
+// rust-vfx 2020
+//------------------------------------------------------------------------------
+use serde::{Serialize, Deserialize};
+
 use std::string::String;
 use std::vec::Vec;
 
@@ -8,34 +13,34 @@ pub type IdRefs = Vec<IdRef>;
 pub type Bool = bool;
 pub type Name = Token;
 
-pub type NameOrEmpty = Option<Name, ()>;
+pub type NameOrEmpty = Option<Name>;
 pub type Expression = Token;
 pub type Attributes = Token;
 
-pub struct Id = u64;
+pub type Id = u64;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, serde::Deserialize)]
 pub enum Access {
     Public,
     Protected,
     Private,
 }
 
-/*
-#[derive(Debug, Deserialize)]
+#[derive(Debug, serde::Deserialize)]
 pub struct Argument {
-  pub name Option<Name>,
-  pub type: IdRef,
-  pub original_type: Option<IdRef>,
-  pub location: Option<String>,
-  pub file: Option<String>,
-  pub line: Option<u64>,
-  pub default: Option<Expression>,
-  pub attributes: Option<Attributes>,
-  pub deprecation: Option<Name>,
-  pub annotation: Option<name>,
+    pub name: Option<Name>,
+    pub type_: IdRef,
+    pub original_type: Option<IdRef>,
+    pub location: Option<String>,
+    pub file: Option<String>,
+    pub line: Option<u64>,
+    pub default: Option<Expression>,
+    pub attributes: Option<Attributes>,
+    pub deprecation: Option<Name>,
+    pub annotation: Option<Name>,
 }
 
+/*
 #[derive(Debug, Deserialize)]
 pub struct Function {
     #[serde(rename = "Argument", default)]
