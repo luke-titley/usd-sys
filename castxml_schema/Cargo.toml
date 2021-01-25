@@ -1,0 +1,8 @@
+[package]
+name = "castxml_schema"
+version = "0.1.0"
+authors = ["Luke Titley <from+castxml_schema@luketitley.com>"]
+edition = "2018"
+
+[dependencies]
+serde = {version="1.0.121", features = ["derive"]}
