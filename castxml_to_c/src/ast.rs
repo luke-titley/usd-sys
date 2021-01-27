@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 
 use std::string::String;
 use std::vec::Vec;
+use std::sync::Arc;
 
 pub type Token = String;
 pub type IdRef = String;
@@ -150,99 +151,22 @@ pub struct EnumValue {
 }
 
 #[derive(Debug, serde::Deserialize)]
-pub enum Item {
-    File {
-        id: Id,
-        name: Name,
-    },
-
-    Namespace {
-        id: Id,
-        name: Option<Name>,
-        context: Option<IdRef>,
-        members: Option<IdRefs>,
-        comment: Option<IdRef>,
-    },
-    Comment {
-        id: Id,
-        attached: IdRef,
-        file: IdRef,
-        begin_line: String,
-        begin_column: String,
-        begin_offset: String,
-        end_line: String,
-        end_column: String,
-        end_offset: String,
-    },
-    Struct(Record),
-    Union(Record),
-    Class(Record),
-    Enumeration {
-        #[serde(rename = "EnumValue", default)]
-        enum_value: Vec<EnumValue>,
-        id: Id,
-        name: NameOrEmpty,
-        #[serde(rename = "type")]
-        type_: IdRef,
-        context: Option<IdRef>,
-        access: Option<Access>,
-        location: Option<String>,
-        file: Option<String>,
-        line: Option<String>,
-        scoped: Option<String>,
-        size: String,
-        align: String,
-        attributes: Option<Attributes>,
-        deprecation: Option<Name>,
-        annotation: Option<Name>,
-        comment: Option<IdRef>,
-    },
-    Variable {
-        id: Id,
-        name: Name,
-        #[serde(rename = "type")]
-        type_: IdRef,
-        init: Option<Expression>,
-        context: Option<IdRef>,
-        access: Option<Access>,
-        location: Option<String>,
-        file: Option<String>,
-        line: Option<String>,
-        #[serde(rename = "static")]
-        static_: Option<String>,
-        #[serde(rename = "extern")]
-        extern_: Option<String>,
-        mangled: String,
-        attributes: Option<Attributes>,
-        comment: Option<IdRef>,
-        deprecation: Option<Name>,
-        annotation: Option<Name>,
-    },
-    Field {
-        id: Id,
-        name: NameOrEmpty,
-        #[serde(rename = "type")]
-        type_: IdRef,
-        bits: Option<String>,
-        context: IdRef,
-        access: Access,
-        location: Option<String>,
-        file: Option<String>,
-        line: Option<String>,
-        offset: String,
-        mutable: Option<String>,
-        attributes: Option<Attributes>,
-        comment: Option<IdRef>,
-        deprecation: Option<Name>,
-        annotation: Option<Name>,
-    },
+pub enum Functions {
     Function(Function),
     OperatorFunction(Function),
+}
+
+#[derive(Debug, serde::Deserialize)]
+pub enum Methods {
     Constructor(Method),
     Destructor(Method),
     Method(Method),
     OperatorMethod(Method),
     Converter(Method),
+}
+
+#[derive(Debug, serde::Deserialize)]
+pub enum Types {
     Typedef {
         id: Id,
         name: Name,
@@ -322,6 +246,98 @@ pub enum Item {
         deprecation: Option<Name>,
         annotation: Option<Name>,
     },
+    Struct(Record),
+    Union(Record),
+    Class(Record),
+    Enumeration {
+        #[serde(rename = "EnumValue", default)]
+        enum_value: Vec<EnumValue>,
+        id: Id,
+        name: NameOrEmpty,
+        #[serde(rename = "type")]
+        type_: IdRef,
+        context: Option<IdRef>,
+        access: Option<Access>,
+        location: Option<String>,
+        file: Option<String>,
+        line: Option<String>,
+        scoped: Option<String>,
+        size: String,
+        align: String,
+        attributes: Option<Attributes>,
+        deprecation: Option<Name>,
+        annotation: Option<Name>,
+        comment: Option<IdRef>,
+    },
+}
+
+#[derive(Debug, serde::Deserialize)]
+pub enum Item {
+    File {
+        id: Id,
+        name: Name,
+    },
+
+    Namespace {
+        id: Id,
+        name: Option<Name>,
+        context: Option<IdRef>,
+        members: Option<IdRefs>,
+        comment: Option<IdRef>,
+    },
+    Comment {
+        id: Id,
+        attached: IdRef,
+        file: IdRef,
+        begin_line: String,
+        begin_column: String,
+        begin_offset: String,
+        end_line: String,
+        end_column: String,
+        end_offset: String,
+    },
+    Variable {
+        id: Id,
+        name: Name,
+        #[serde(rename = "type")]
+        type_: IdRef,
+        init: Option<Expression>,
+        context: Option<IdRef>,
+        access: Option<Access>,
+        location: Option<String>,
+        file: Option<String>,
+        line: Option<String>,
+        #[serde(rename = "static")]
+        static_: Option<String>,
+        #[serde(rename = "extern")]
+        extern_: Option<String>,
+        mangled: String,
+        attributes: Option<Attributes>,
+        comment: Option<IdRef>,
+        deprecation: Option<Name>,
+        annotation: Option<Name>,
+    },
+    Field {
+        id: Id,
+        name: NameOrEmpty,
+        #[serde(rename = "type")]
+        type_: IdRef,
+        bits: Option<String>,
+        context: IdRef,
+        access: Access,
+        location: Option<String>,
+        file: Option<String>,
+        line: Option<String>,
+        offset: String,
+        mutable: Option<String>,
+        attributes: Option<Attributes>,
+        comment: Option<IdRef>,
+        deprecation: Option<Name>,
+        annotation: Option<Name>,
+    },
+    Functions(Functions),
+    Methods(Methods),
+    Type(Type),
     Unimplemented {
         id: Id,
         kind: Option<Name>,
