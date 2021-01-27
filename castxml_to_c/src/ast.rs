@@ -20,6 +20,7 @@ pub type Attributes = String;
 
 pub type Id = String;
 
+/*
 #[derive(Debug, serde::Deserialize)]
 pub struct Argument {
     pub name: Option<Name>,
@@ -344,6 +345,9 @@ pub enum Item {
         type_class: Option<Name>,
     },
 }
+*/
+
+pub type Item = String;
 
 #[derive(Debug, serde::Deserialize)]
 pub struct AST {
