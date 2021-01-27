@@ -4,8 +4,8 @@
 use serde::{Deserialize, Serialize};
 
 use std::string::String;
-use std::vec::Vec;
 use std::sync::Arc;
+use std::vec::Vec;
 
 pub type Token = String;
 pub type IdRef = String;
