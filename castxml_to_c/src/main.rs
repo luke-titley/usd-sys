@@ -8,11 +8,15 @@ use serde_xml_rs::from_reader;
 
 type Items = std::vec::Vec<ast::Item>;
 
+//------------------------------------------------------------------------------
+// Transform
+//------------------------------------------------------------------------------
 struct Transform<'a, 'b> {
     input: &'a cs::CastXML,
     output: &'b mut ast::AST,
 }
 
+//------------------------------------------------------------------------------
 impl<'a, 'b> Transform<'a, 'b> {
     // Convert an id reference to an id.
     fn idref_to_item(&self, idref: &str) -> Option<&cs::Item> {
