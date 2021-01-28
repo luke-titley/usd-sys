@@ -3,6 +3,8 @@
 //------------------------------------------------------------------------------
 mod ast;
 
+use std::sync::Arc;
+
 use castxml_schema as cs;
 use serde_xml_rs::from_reader;
 
@@ -16,28 +18,29 @@ struct Transform<'a, 'b> {
     output: &'b mut ast::AST,
 }
 
+// Convert an id reference to an id.
+fn idref_to_item<'a, 'b>(input: &'a cs::CastXML, idref: &'b str) -> Option<&'a cs::Item> {
+    if &idref[0..1] == "_" {
+        let id: u32 = idref[1..].parse().expect("Unable to convert id into int");
+
+        Some(&input.items[id as usize])
+    } else {
+        None
+    }
+}
+
 //------------------------------------------------------------------------------
 impl<'a, 'b> Transform<'a, 'b> {
-    // Convert an id reference to an id.
-    fn idref_to_item(&self, idref: &str) -> Option<&cs::Item> {
-        if &idref[0..1] == "_" {
-            let id: u32 = idref[1..].parse().expect("Unable to convert id into int");
-
-            Some(&self.input.items[id as usize])
-        } else {
-            None
-        }
-    }
 
     // Given a string of members:
     // Iterate over each member.
     fn iter_members<F>(&mut self, members: &str, mut f: F)
     where
-        F: FnMut(&cs::Item),
+        F: FnMut(&mut ast::AST, &cs::Item),
     {
         for idref in members.split_ascii_whitespace() {
-            if let Some(member) = self.idref_to_item(&idref) {
-                f(member)
+            if let Some(member) = idref_to_item(&self.input, &idref) {
+                f(self.output, member)
             }
         }
     }
@@ -47,13 +50,12 @@ impl<'a, 'b> Transform<'a, 'b> {
         // We want to convert the methods/operators to functions and the
         // fields to normal fields.
         if let Some(members) = &kls.members {
-            self.iter_members(&members, |item| {
-                match item {
-                    cs::Item::Method(method) => {
-                        println!("method id {}", method.id);
-                    }
-                    _ => (),
+            self.iter_members(&members, |ast, item| match item {
+                cs::Item::Method(method) => {
+                    println!("method id {}", method.id);
+                    ast.items.push(Arc::new(ast::Item::Function {}));
                 }
+                _ => (),
             });
         }
     }
